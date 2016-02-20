@@ -10,6 +10,7 @@ import json
 from pattern.en import parse
 from pattern.en import tag
 
+MAX_TITLE = 50
 GRAF_LENGTH = 8
 GRAF_RANGE = 3
 DEBUG = True
@@ -72,6 +73,20 @@ def graphize(sentences):
 	return grafs
 
 
+def createTitle():
+	with open("./titles.txt") as f:
+		titles = f.read()
+
+	model = markovify.Text(titles)
+
+	title = model.make_short_sentence(MAX_TITLE)
+
+	if title is None:
+		print("No title generated; try futzing with the overlap function.", file=sys.stderr)
+		return "No title available"
+	else:
+		return title
+
 #get a list of sentences to make into a speech, then call a utility to format it
 def createTalk(seed):
 	with open("./transcripts.txt") as f:
@@ -118,7 +133,7 @@ def createTalk(seed):
 		slides.append({"image": getImage(graf), "text": graf})
 
 	talk = {}
-	talk['title'] = "title goes here"
+	talk['title'] = createTitle()
 	talk['slides'] = slides
 
 	return json.dumps(talk)
