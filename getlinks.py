@@ -17,6 +17,8 @@ def main():
 		for div in divs:
 			link = div.find('a')['href']
 			print 'http://www.ted.com' + link + '/transcript?language=en'
+			#title = div.find('a').string
+			#print title.encode('ascii', 'ignore')
 
 	
 
