@@ -1,0 +1,109 @@
+html, body {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 1em;
+	color:#333;
+	margin: 0px;
+}
+a:link, a:hover, a:visited {
+	color: inherit;
+}
+.clear {
+	clear: both;
+}
+#header, #main {
+	margin: 0 auto;
+	padding: 40px 5% 20px 5%;
+	max-width:1200;
+	background-color: #fff;
+}
+#header {
+	border-bottom: 2px solid #e0e0e0;
+	padding: 20px 6%;
+}
+
+#title {
+	font-family: 'Arial Black', Helvetica;
+	font-size: 2.5em;
+	font-weight:bold;
+	letter-spacing: -5px;
+	color:#e62b1e;
+	float: left;
+}
+#subtitle {
+	font-size: 1.5em;
+	font-weight: 100;
+	color: #888;
+	float: left;
+	margin-top: 42px;
+	margin-left: 15px;
+}
+@media screen and (max-width: 767px) {
+    /* For mobile */
+    #header {
+    	padding: 0px;
+    	margin-top: 20px;
+    }
+    #title {
+    	text-align: center;
+    	float: none;
+    }
+    #subtitle {
+    	text-align: center;
+    	margin:0px;
+    	float: none;
+    }
+
+}
+
+#grid .item {
+	background-color: #000;
+	margin: 20px;
+	display: inline-block;
+	cursor: pointer;
+	vertical-align: top;
+}
+#grid .item-img {
+	overflow: hidden;
+}
+#grid .item-img img {
+	width:100%;
+	opacity: 80%;
+}
+#grid .item-title {
+	font-family: 'Helvetica Neue Bold', Helvetica, sans-serif;
+	letter-spacing: -0.5px;
+	font-weight: bolder;
+	line-height: 1.2;
+	background-color: #fff;
+	padding-top: 10px;
+}
+@media screen and (min-width: 420px) {
+	#grid .item {
+		width:160px;
+	}
+	#grid .item-img {
+		height: 90px;
+	}
+}
+@media screen and (max-width: 419px) {
+	#grid .item {
+	}
+	#grid .item-img {
+		height: 140px;
+	}
+}
+
+#intro {
+	background-color: rgba(243,243,243,1);
+	padding: 20px 15% 60px 15%;
+	font-weight: 200;
+	text-align: center;
+	line-height: 1.5;
+	font-size: 1.3em;
+	border-top: 2px solid #e0e0e0;
+}
+#intro h2 {
+	font-weight: 400;
+	font-size: 1.1em;
+	margin:10px;
+}
