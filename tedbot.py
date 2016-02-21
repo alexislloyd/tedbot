@@ -88,13 +88,15 @@ def createTitle():
 		return title
 
 #get a list of sentences to make into a speech, then call a utility to format it
-def createTalk(seed):
+def createTalk(seed=None):
 	with open("./transcripts.txt") as f:
 		text = f.read()
 
 	markovmodel = markovify.Text(text)
 
 	speech = ""
+
+	if DEBUG: print(seed, file=sys.stderr)
 
 	if seed:
 		beginning = seed
@@ -107,19 +109,22 @@ def createTalk(seed):
 				seed += " " + seed
 			else:
 				seed = None
-	print(seed, file=sys.stderr)
-	try:
-		firstsentence = markovmodel.make_sentence_with_start(beginning=seed)
-	except KeyError: 
-		firstsentence = None
+		try:
+			firstsentence = markovmodel.make_sentence_with_start(beginning=seed)
+		except KeyError: 
+			firstsentence = None
 	
-	if firstsentence is None:
-		print("Seed generated no results. Falling back.", file=sys.stderr)
-		firstsentence = markovmodel.make_sentence()
+		if firstsentence is None:
+			print("Seed generated no results. Falling back.", file=sys.stderr)
+			firstsentence = markovmodel.make_sentence()
+		else:
+			firstsentence = beginning + " " + firstsentence
 	else:
-		firstsentence = beginning + " " + firstsentence
+		firstsentence = markovmodel.make_sentence()
+
 	speechlength = len(firstsentence.split())
 	sentences = [firstsentence]
+
 
 	while speechlength < 1800:
 		newsentence = markovmodel.make_sentence()
@@ -136,7 +141,7 @@ def createTalk(seed):
 	talk['title'] = createTitle()
 	talk['slides'] = slides
 
-	return json.dumps(talk)
+	return talk
 
 def main():
 	if len(sys.argv) == 1:
@@ -149,7 +154,7 @@ def main():
 		else:
 			talk = createTalk(sys.argv[1])
 
-	print(talk)
+	print(json.dumps(talk))
 
 
 if __name__ == "__main__":
