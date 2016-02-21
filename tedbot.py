@@ -45,8 +45,10 @@ def getImage(refstring):
 	except IndexError:
 		# there were no results, so the random.choice call failed above. This is OK, we'll just move on.
 		url = None
-
-	return url
+	image = {}
+	image['url'] = url
+	image['noun'] = query
+	return image
 
 #given a list of sentences, return a list of paragraphs
 def graphize(sentences):

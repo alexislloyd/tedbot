@@ -1,0 +1,14 @@
+<!doctype html>
+	<head><title>BOTTalk: {{ talk.title }}</title>
+	</head>
+	<body>
+		{% for slide in talk.slides %}
+			{% if slide.image.url %}
+				<img src="{{ slide.image.url }}" alt="Slide {{ loop.index }}: {{ slide.image.noun }}"/>
+			{% endif %}
+			<p>{{ slide.text }}</p>
+		{% else %}
+			No talk object received
+		{% endfor %}
+	</body>
+</html>
