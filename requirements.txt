@@ -1,0 +1,15 @@
+Jinja2==2.8
+MarkupSafe==0.23
+Pattern==2.6
+PyYAML==3.11
+Unidecode==0.04.19
+Werkzeug==0.11.4
+flickrapi==2.1.2
+itsdangerous==0.24
+markovify==0.2.5
+oauthlib==1.0.3
+requests==2.9.1
+requests-oauthlib==0.6.1
+requests-toolbelt==0.6.0
+six==1.10.0
+wsgiref==0.1.2
