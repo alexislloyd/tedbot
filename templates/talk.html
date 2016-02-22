@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+	<title>{{ talk.title }}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="title" content="{{ talk.title }}">
+	<meta name="thumb" content="{{ talk.slides[0].image.url }}">
+	<link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+<body>
+	<h1 id="talk-header"><a href="../index.html"><span></span></a><div id="talk-title">TIM</div> <div id="talk-subtitle">Ideas worth automating</div><br class="clear" /></h1>
+
+	<div id="talk-body">
+
+		<!--title-->
+		<h2>
+			{{ talk.title }}
+		</h2>
+		
+		<!--begin paragraphs-->
+		{% for slide in talk.slides %}
+		<div class="section">
+			<div class="slide">
+				<div class="overlay">
+					{{ slide.image.noun }}
+				</div>
+				<img src="{{ slide.image.url }}" alt="Slide {{ loop.index }}: {{ slide.image.noun }}" />
+			</div>
+			<p>
+				{{ slide.text }}
+			</p>
+			<br class="clear" />
+		</div>
+
+		{% else %}
+			No talk object received
+		{% endfor %}
+
+		<div class="section">
+			<div class="slide">
+			</div>
+			<p>
+				Thank you.
+			</p>
+			<br class="clear" />
+		</div>
+
+		
+		<div class="section">
+			<div class="slide">
+			</div>
+			<p>
+				(Applause)
+			</p>
+			<br class="clear" />
+		</div>
+		<!--end paragraphs-->
+
+	</div>
+	
+	<div id="talk-intro">
+		<h2>About TIM</h2>
+		TIM is a platform for ideas worth automating. TIM generates talks on a broad spectrum of topics, based on the texts of slightly more coherent talks given under the auspices of his more famous big brother, who shall not be named here. You can keep up-to-date on newly generated talks on Twitter at <a href="https://twitter.com/ideasworthautomating">@ideasworthautomating</a>.
+	</div>
+
+</body>
+</html>
