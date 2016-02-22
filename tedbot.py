@@ -69,9 +69,6 @@ def graphize(sentences):
 			currentgraf += " "
 			counter += 1
 
-	grafs.append("Thank you.")
-	grafs.append("(Applause)")
-
 	return grafs
 
 
