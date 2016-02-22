@@ -2,6 +2,7 @@
 from __future__ import print_function
 from jinja2 import Environment, PackageLoader
 import sys
+import os
 from time import strftime, gmtime
 import json
 from tedbot import createTalk
@@ -30,8 +31,22 @@ def makeNewPage():
 
 def rebuildIndex():
 	#open the talks folder
+	searchdir = outputdir + talkdir
+	
+	talklist = []
 	#get a list of all the files inside
-	#for each file, get its filename, title, and lead image
+	for root, dirs, files in os.walk(searchdir):
+		for filename in files:
+			if DEBUG: print(filename, file=sys.stderr)
+		#for each file, get its filename, title, and lead image
+		with open(filename, "r")
+			talk = {}
+			talk['title'] = blah
+			talk['image'] = blah
+			talk['url'] = filename[len(outputdir)+1:]
+			print(talk['url'], file=sys.stderr)
+			talklist.append(talk)
+
 	#pass that object to the template renderer
 	filename = outputdir + "index.html"
 	env = Environment(loader=PackageLoader('tedbot', 'templates'))
