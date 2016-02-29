@@ -14,6 +14,7 @@ MAX_TITLE = 50
 GRAF_LENGTH = 8
 GRAF_RANGE = 3
 DEBUG = True
+MARKOVSTATESIZE = 3
 
 with open("config.yml", 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
@@ -84,6 +85,7 @@ def createTitle():
 		print("No title generated; try futzing with the overlap function.", file=sys.stderr)
 		return "No title available"
 	else:
+		title = title[:1].upper() + title[1:].lower()
 		return title
 
 #get a list of sentences to make into a speech, then call a utility to format it
@@ -91,7 +93,7 @@ def createTalk(seed=None):
 	with open("./transcripts.txt") as f:
 		text = f.read()
 
-	markovmodel = markovify.Text(text)
+	markovmodel = markovify.Text(text, state_size=MARKOVSTATESIZE)
 
 	speech = ""
 
@@ -100,9 +102,8 @@ def createTalk(seed=None):
 	if seed:
 		beginning = seed
 		words = seed.split()
-		if len(words) >= 2:
-			end = len(words)
-			seed = words[end-2] + " " + words[end-1]
+		if len(words) >= MARKOVSTATESIZE:
+			seed = words[0-MARKOVSTATESIZE]
 		else:
 			if len(words) == 1:
 				seed += " " + seed
@@ -127,18 +128,25 @@ def createTalk(seed=None):
 
 	while speechlength < 1800:
 		newsentence = markovmodel.make_sentence()
-		speechlength += len(newsentence.split())
-		sentences.append(newsentence)
-		if DEBUG: print(str(speechlength) + " - " + str(len(sentences)), file=sys.stderr)
+		if (newsentence is not None):
+			speechlength += len(newsentence.split())
+			sentences.append(newsentence)
+			if DEBUG: print(str(speechlength) + " - " + str(len(sentences)), file=sys.stderr)
 
 	grafs = graphize(sentences)
 	slides = []
+	thumb = None
 	for graf in grafs:
-		slides.append({"image": getImage(graf), "text": graf})
+		image = getImage(graf)
+		if (thumb is None) and (image['url'] is not None):
+			# assign the first valid image to thumb
+			thumb = image['url']
+		slides.append({"image": image, "text": graf})
 
 	talk = {}
 	talk['title'] = createTitle()
 	talk['slides'] = slides
+	talk['thumb'] = thumb
 
 	return talk
 

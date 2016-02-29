@@ -3,4 +3,4 @@ speech.*
 config.yml
 venv
 venv/*
-output/talks/*
+output/*
