@@ -8,14 +8,19 @@ import json
 import yaml
 from tedbot import createTalk
 from bs4 import BeautifulSoup
+from twython import Twython
 
 DEBUG = True
 
 with open("config.yml", 'r') as ymlfile:
-    cfg = yaml.load(ymlfile)
-    outputdir = cfg['export']['root']
-    talkdir = cfg['export']['talkdir']
-    siteurl = cfg['export']['siteurl']
+	cfg = yaml.load(ymlfile)
+	outputdir = cfg['export']['root']
+	talkdir = cfg['export']['talkdir']
+	siteurl = cfg['export']['siteurl']
+	twitter_api = cfg['twitter']['api_key']
+	twitter_secret = cfg['twitter']['secret']
+	twitter_access = cfg['twitter']['access_token']
+	twitter_access_secret = cfg['twitter']['access_token_secret']
 
 
 def makeNewPage():
@@ -91,6 +96,9 @@ def main():
 	print("Tweeting link to new talk at " + talk['url'], file=sys.stderr)
 
 	#Tweet link here -- title is in talk['title']
+	twitter = Twython(twitter_api, twitter_secret, twitter_access, twitter_access_secret)
+	tweet = talk['title'] + ' ' + talk['url']
+	twitter.update_status(status=tweet)
 
 	print("Regenerating index file", file=sys.stderr)
 
@@ -99,4 +107,4 @@ def main():
 	print("Done.", file=sys.stderr)
 
 if __name__ == "__main__":
-    main()
+	main()
