@@ -10,60 +10,19 @@
 	<div id="main">
 		<div id="grid">
 			
+			{% for talk in talklist %}
 			<div class="item">
 				<div class="item-img">
-					<img src="http://www.planwallpaper.com/static/images/magic-of-blue-universe-images.jpg" />
+					<a href="{{ talk.url }}"><img src="{{ talk.image }}" /></a>
 				</div>
 				<div class="item-title">
-					Curabitur ut blandit justo
+					<a href="{{ talk.url }}">{{ talk.title }}</a>
 				</div>
 			</div>	
 
-			<div class="item">
-				<div class="item-img">
-					<img src="http://www.planwallpaper.com/static/images/Winter-Tiger-Wild-Cat-Images.jpg" />
-				</div>
-				<div class="item-title">
-					Proin vitae ultrices mauris curabitur
-				</div>
-			</div>	
-
-			<div class="item">
-				<div class="item-img">
-					<img src="https://static.pexels.com/photos/1562/italian-landscape-mountains-nature.jpg" />
-				</div>
-				<div class="item-title">
-					Fusce vulputate eleifend ornare vestibulum
-				</div>
-			</div>	
-
-			<div class="item">
-				<div class="item-img">
-					<img src="http://wwwimages.adobe.com/content/dam/acom/en/products/creativecloud/stock/cc2015/images/st-selling-images-434x280.jpg" />
-				</div>
-				<div class="item-title">
-					Nunc dolor mauris, auctor sit
-				</div>
-			</div>	
-
-			<div class="item">
-				<div class="item-img">
-					<img src="http://publicdomainarchive.com/wp-content/uploads/2015/03/public-domain-images-free-stock-photos-architecture-attraction-italian.jpeg" />
-				</div>
-				<div class="item-title">
-					Cras sodales nulla nunc, dignissim
-				</div>
-			</div>	
-
-			<div class="item">
-				<div class="item-img">
-					<img src="http://www.freedigitalphotos.net/images/category-images/382.jpg" />
-				</div>
-				<div class="item-title">
-					Integer molestie ac risus quis
-				</div>
-			</div>	
-			
+			{% else %}
+				No talk object received
+			{% endfor %}	
 
 		</div>
 	</div>

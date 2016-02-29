@@ -4,7 +4,7 @@
 	<title>{{ talk.title }}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="title" content="{{ talk.title }}">
-	<meta name="thumb" content="{{ talk.slides[0].image.url }}">
+	<meta name="thumb" content="{{ talk.thumb }}">
 	<link rel="stylesheet" type="text/css" href="../styles.css">
 </head>
 <body>
@@ -21,10 +21,12 @@
 		{% for slide in talk.slides %}
 		<div class="section">
 			<div class="slide">
+				{% if slide.image.url != "None" %}
 				<div class="overlay">
 					{{ slide.image.noun }}
 				</div>
 				<img src="{{ slide.image.url }}" alt="Slide {{ loop.index }}: {{ slide.image.noun }}" />
+				{% endif %}
 			</div>
 			<p>
 				{{ slide.text }}
