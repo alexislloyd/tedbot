@@ -45,6 +45,7 @@ def getImage(refstring):
 		url = 'https://farm' + str(pick['farm']) + '.staticflickr.com/' + str(pick['server']) + '/' + str(pick['id']) + '_' + str(pick['secret']) + '_z.jpg'
 	except IndexError:
 		# there were no results, so the random.choice call failed above. This is OK, we'll just move on.
+		print(str(result) + "may be empty?", file=sys.stderr)
 		url = None
 	image = {}
 	image['url'] = url
