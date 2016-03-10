@@ -21,7 +21,9 @@ with open("config.yml", 'r') as ymlfile:
 	twitter_secret = cfg['twitter']['secret']
 	twitter_access = cfg['twitter']['access_token']
 	twitter_access_secret = cfg['twitter']['access_token_secret']
-
+	aws_key = cfg['aws']['key']
+	aws_secret = cfg['aws']['secret']
+	aws_bucket = cfg['aws']['bucket']
 
 def makeNewPage():
 	talk = createTalk()
@@ -87,11 +89,36 @@ def rebuildIndex():
 	with open(filename, "w") as indexfile:
 		indexfile.write(index)
 
+def s3upload():
+	# move everything in the output directory, including all in the talks directory, using os.walk
+
+	from boto.s3.connection import S3Connection, OrdinaryCallingFormat
+	from boto.s3.key import Key
+
+	conn = S3Connection(aws_key, aws_secret, calling_format=OrdinaryCallingFormat())
+	bucket = conn.get_bucket(aws_bucket)
+
+	for root, dirs, files in os.walk(outputdir):
+		for filename in files:
+			path = root[len(outputdir):]
+			if DEBUG: print("Saving " + os.path.join(path,filename) + " from " + os.path.join(root,filename), file=sys.stderr)
+
+			key = bucket.new_key(os.path.join(path,filename))
+			key.set_contents_from_filename(os.path.join(root,filename), policy='public-read')
+
 def main():
 	print(strftime("%a, %d %b %Y %H:%M:%S %Z", gmtime()), file=sys.stderr)
 	print("Generating new talk", file=sys.stderr)
 	
 	talk = makeNewPage()
+
+	print("Regenerating index file", file=sys.stderr)
+
+	rebuildIndex()
+
+	print("Moving files to S3", file=sys.stderr)
+
+	s3upload()
 
 	print("Tweeting link to new talk at " + talk['url'], file=sys.stderr)
 
@@ -99,10 +126,6 @@ def main():
 	twitter = Twython(twitter_api, twitter_secret, twitter_access, twitter_access_secret)
 	tweet = talk['title'] + ' ' + talk['url']
 	twitter.update_status(status=tweet)
-
-	print("Regenerating index file", file=sys.stderr)
-
-	rebuildIndex()
 	
 	print("Done.", file=sys.stderr)
 
